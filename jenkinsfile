@@ -5,13 +5,17 @@ pipeline {
         }
     stages{
         stage ("Bulding docker image"){
-            sh "docker build . --build-arg TMDB_V3_API_KEY=$KEY -t netflix"
+            steps{
+                sh "docker build . --build-arg TMDB_V3_API_KEY=$KEY -t netflix"
+            }
         }
         stage ("Pushing docker Image"){
-            withDockerRegistry(credentialsId: 'docker', url: 'https://index.docker.io/v1/') {
+            steps{
+                withDockerRegistry(credentialsId: 'docker', url: 'https://index.docker.io/v1/') {
                 sh ' docker tag netflix chaitanya305/netflix'
                 sh ' docker push chaitanya305/netflix '
-            }
+                }
+            }  
         }
         stage ("deployement of Netflix"){
             steps{
