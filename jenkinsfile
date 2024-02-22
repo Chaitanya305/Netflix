@@ -20,6 +20,8 @@ pipeline {
         stage ("deployement of Netflix"){
             steps{
                 script{
+                    sh "ls -lrt "
+                    sh "pwd"
                     dir('netflix/netflix_k8s') {
                         withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'K8S', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
                             sh "kubectl apply -f netflix.yml"
